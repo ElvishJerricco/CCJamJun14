@@ -18,7 +18,7 @@ return @class:LuaObject
 			local event = {os.pullEvent()}
 			local shouldUpdate
 			for i,v in ipairs(eventHandlers) do
-				shouldUpdate = shouldUpdate or |v respondToEvent:unpack(event)|
+				shouldUpdate = shouldUpdate or |v respondToEvent:event|
 			end
 
 			if shouldUpdate then

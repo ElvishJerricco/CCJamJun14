@@ -40,9 +40,7 @@ return @class:LuaObject
 		window.write(module.name)
 	end
 
-	function (respondToEvent:...)
-		local parameters = {...}
-
+	function (respondToEvent:parameters)
 		for i,v in ipairs(eventParameters) do
 			if v ~= parameters[i] then
 				return false

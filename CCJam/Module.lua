@@ -10,7 +10,7 @@ return @class:LuaObject
 	function (update)
 	end
 
-	function (respondToEvent:...)
+	function (respondToEvent:parameters)
 		return false
 	end
 
