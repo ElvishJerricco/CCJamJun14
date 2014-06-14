@@ -25,14 +25,14 @@ return @class:LuaObject
 
 	function (update)
 		local w, h = window.getSize()
-		window.clear()
 
 		local module = modules[index]
 		|module drawInWindow:ccWindow.create(window, 1, 1, w, h-2)|
 
+		local bgc, tc = |module navBarColors|
 		window.setCursorPos(1, h - 1)
-		window.setBackgroundColor(colors.yellow)
-		window.setTextColor(colors.black)
+		window.setBackgroundColor(bgc)
+		window.setTextColor(tc)
 		window.write("<<"..(" "):rep(w - 4)..">>")
 		window.setCursorPos(1, h)
 		window.write("<<"..(" "):rep(w - 4)..">>")
@@ -49,8 +49,24 @@ return @class:LuaObject
 			end
 		end
 
+		local w, h = window.getSize()
+		local x, y = select(3, unpack(parameters))
+		if y >= h - 2 then
+			if x <= 2 then
+				index = index - 1
+				if index < 1 then
+					index = #modules
+				end
+				return true
+			elseif x >= w - 1 then
+				index = index + 1
+				if index > #modules then
+					index = 1
+				end
+				return true
+			end
+		end
 
-
-		return true
+		return false
 	end
 end

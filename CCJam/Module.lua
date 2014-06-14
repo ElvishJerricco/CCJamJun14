@@ -13,4 +13,8 @@ return @class:LuaObject
 	function (respondToEvent:...)
 		return false
 	end
+
+	function (navBarColors)
+		return colors.yellow, colors.black
+	end
 end
