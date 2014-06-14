@@ -25,7 +25,7 @@ return @class:require("../Module.lua")
 
 		win.setBackgroundColor(colors.black)
 		win.clear()
-		win.setCursorPos(1,2)
+		win.setCursorPos(1,1)
 		gu.drawBarInWindow(
 			win,
 			string.format("HDD %d / %d", usedSpace, totalSpace),

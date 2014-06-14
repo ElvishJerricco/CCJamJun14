@@ -12,15 +12,16 @@ function mu.setDefaultModule(str)
 	default = str
 end
 
-function mu.newWithClass(Class, window, ...)
+function mu.newWithClass(Class, window, shouldSpace, ...)
 	return ||Class new| initWithWindow:window
 	                           modules:modules
 	                     defaultModule:default
+	                       shouldSpace:shouldSpace
 	                   eventParameters:...|
 end
 
-function mu.new(window, ...)
-	return mu.newWithClass(Monitor, window, ...)
+function mu.new(window, shouldSpace, ...)
+	return mu.newWithClass(Monitor, window, shouldSpace, ...)
 end
 
 function mu.createNetworkedWindow(senderId, w, h)
