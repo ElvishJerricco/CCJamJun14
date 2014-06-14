@@ -1,8 +1,18 @@
+local root = fs.getDir(shell.getRunningProgram())
+
+local function combine(str1, str2, ...)
+	if not str2 then
+		return str1
+	end
+	return fs.combine(str1, combine(str2, ...))
+end
+
 local function getConfig(name)
 	local file = assert(
 		fs.open(
-			fs.combine(
-				"CCJam/config/",
+			combine(
+				root,
+				"config",
 				name
 			),
 			"r"
