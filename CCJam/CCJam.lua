@@ -33,3 +33,15 @@ table.insert(monitors, ||Monitor new| initWithEventParameters:"mouse_click", 1|)
 for k,v in pairs(monitorConfig) do
 	table.insert(monitors, ||Monitor new| initWithEventParameters:"monitor_touch", k|)
 end
+
+
+local modules = {}
+for i,v in ipairs(fs.list(combine(root, "modules"))) do
+	local ModuleClass = require(combine("modules", v))
+	local module = ||ModuleClass new| init|
+	table.insert(modules, module)
+end
+
+for i,v in ipairs(modules) do
+	|v loadModule|
+end
