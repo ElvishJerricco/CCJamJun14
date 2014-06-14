@@ -1,10 +1,8 @@
 return @class:LuaObject
-	@property defaultScreen
 	@property eventParameters
 	
-	function (initWithDefaultScreen:defaultScreen eventParameters:...)
+	function (initWithEventParameters:...)
 		|super init|
-		self.defaultScreen = defaultScreen
 		eventParameters = {...}
 		return self
 	end

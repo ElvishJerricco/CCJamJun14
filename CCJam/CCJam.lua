@@ -28,10 +28,8 @@ local serverConfig = getConfig("server.cfg")
 
 local Monitor = require("Monitor.lua")
 local monitors = {}
-table.insert(monitors, ||Monitor new| initWithDefaultScreen:monitorConfig.default
-                                            eventParameters:"mouse_click", 1|)
+table.insert(monitors, ||Monitor new| initWithEventParameters:"mouse_click", 1|)
 
 for k,v in pairs(monitorConfig) do
-	table.insert(monitors, ||Monitor new| initWithDefaultScreen:v
-		                                        eventParameters:"monitor_touch", k|)
+	table.insert(monitors, ||Monitor new| initWithEventParameters:"monitor_touch", k|)
 end
