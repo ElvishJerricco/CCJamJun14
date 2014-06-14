@@ -1,3 +1,6 @@
+local mu = require("MonitorUtils.lua")
+local NetworkedMonitor = require("NetworkedMonitor.lua")
+
 return @class:LuaObject
 	function (initWithConfig:config)
 		|super init|
@@ -6,9 +9,22 @@ return @class:LuaObject
 		return self
 	end
 
-	function (start)
-		while true do
-			local id, msg = rednet.receive("elvishjerricco.ccjam.jun14")
+	function (update)
+	end
+
+	function (respondToEvent:event)
+		local eventType, senderId, msg, protocol = |event select:1|
+		if eventType == "rednet_message" and protocol == "elvishjerricco.ccjam.jun14" and type(msg) == "table" then
+			if msg.type == "connect" then
+				local window = mu.createNetworkedWindow(senderId, msg.termWidth, msg.termHeight)
+				|event.manager addEventHandler:mu.newWithClass(NetworkedMonitor, window, "remote_click", senderId)|
+				return true
+			elseif msg.type == "click" then
+				os.queueEvent("remote_click", senderId, msg.x, msg.y)
+				return false -- the respondToEvent: call resulting from this event will cause an update
+			end
+
 		end
+		return false
 	end
 end

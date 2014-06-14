@@ -40,15 +40,13 @@ return @class:LuaObject
 		window.write(module.name)
 	end
 
-	function (respondToEvent:parameters)
-		for i,v in ipairs(eventParameters) do
-			if v ~= parameters[i] then
-				return false
-			end
+	function (respondToEvent:event)
+		if not |event matchesParameters:eventParameters| then
+			return false
 		end
 
 		local w, h = window.getSize()
-		local x, y = select(3, unpack(parameters))
+		local x, y = |event select:3|
 		if y >= h - 2 then
 			if x <= 2 then
 				index = index - 1

@@ -1,8 +1,11 @@
+print("Loading...")
+
 -- Import classes
 local Monitor = require("Monitor.lua")
 local Module = require("Module.lua")
 local EventManager = require("EventManager.lua")
 local Server = require("Server.lua")
+local mu = require("MonitorUtils.lua")
 
 -- Root directory
 local root = fs.getDir(shell.getRunningProgram())
@@ -41,8 +44,8 @@ local generalConfig = getConfig("general.cfg")
 local monitorConfig = getConfig("monitors.cfg")
 local serverConfig = getConfig("server.cfg")
 
--- start constructing things that are event handlers
-local eventHandlers = {}
+-- Event manager
+local eventManager = ||EventManager new| init|
 
 -- modules
 local modules = {}
@@ -55,35 +58,31 @@ end
 
 for i,v in ipairs(modules) do
 	|v loadModule|
-	table.insert(eventHandlers, v)
+	|eventManager addEventHandler:v|
 end
 table.sort(modules, function(a,b) return a.name < b.name end)
 
 -- monitors
-table.insert(eventHandlers, ||Monitor new| initWithWindow:term.current()
-	                                              modules:modules
-	                                        defaultModule:monitorConfig.default
-	                                      eventParameters:"mouse_click", 1|)
+mu.setModuleTable(modules)
+mu.setDefaultModule(monitorConfig.default)
+|eventManager addEventHandler:mu.new(term.current(), "mouse_click", 1)|
 
 for k,v in pairs(monitorConfig) do
 	local mon = peripheral.wrap(k)
 	if mon then
-		table.insert(eventHandlers, ||Monitor new| initWithWindow:mon
-			                                              modules:modules
-			                                        defaultModule:v
-			                                      eventParameters:"monitor_touch", k|)
+		|eventManager addEventHandler:||Monitor new| initWithWindow:mon
+			                                                modules:modules
+			                                          defaultModule:v
+			                                        eventParameters:"monitor_touch", k||
 	end
 end
 
--- Event manager
-local eventManager = ||EventManager new| initWithEventHandlers:eventHandlers|
-
 -- Server
-local server = ||Server new| initWithConfig:serverConfig|
+|eventManager addEventHandler:||Server new| initWithConfig:serverConfig||
 
 -- start parallellizing
 |eventManager update|
-parallel.waitForAny(eventManager.start, server.start, function()
+parallel.waitForAny(eventManager.start, function()
 	while true do
 		sleep(generalConfig.updateTime)
 		|eventManager update|

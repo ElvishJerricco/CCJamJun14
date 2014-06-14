@@ -1,10 +1,16 @@
+local Event = require("Event.lua")
+
 return @class:LuaObject
 	local eventHandlers = {}
 
-	function (initWithEventHandlers:_eventHandlers)
-		|super init|
-		eventHandlers = _eventHandlers
-		return self
+	function (addEventHandler:handler)
+		table.insert(eventHandlers, handler)
+	end
+
+	function (addHandlersFromArray:handlers)
+		for i,v in ipairs(handlers) do
+			table.insert(eventHandlers, v)
+		end
 	end
 
 	function (update)
@@ -15,7 +21,8 @@ return @class:LuaObject
 
 	function (start)
 		while true do
-			local event = {os.pullEvent()}
+			local event = ||Event new| initWithParameters:{os.pullEvent()}|
+			event.manager = self
 			local shouldUpdate
 			for i,v in ipairs(eventHandlers) do
 				shouldUpdate = shouldUpdate or |v respondToEvent:event|

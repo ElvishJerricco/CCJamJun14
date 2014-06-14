@@ -25,11 +25,13 @@ return @class:require("../Module.lua")
 
 		win.clear()
 		win.setCursorPos(1,2)
-		|gu drawBarInWindow:win
-		              named:string.format("HDD %d / %d", usedSpace, totalSpace)
-		           filledTo:usedSpace / totalSpace
-		              color:colors.lightGray
-		    backgroundColor:colors.gray
-		          textColor:colors.white|
+		gu.drawBarInWindow(
+			win,
+			string.format("HDD %d / %d", usedSpace, totalSpace),
+			usedSpace / totalSpace,
+			colors.lightGray,
+			colors.gray,
+			colors.white
+		)
 	end
 end

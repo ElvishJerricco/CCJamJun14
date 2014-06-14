@@ -2,7 +2,7 @@
 local gu = {}
 
 --remind me to implement a syntax for this in LuaLua
-gu["drawBarInWindow:named:filledTo:color:backgroundColor:textColor:"] = function(window, name, val, color, backgroundColor, textColor)
+function gu.drawBarInWindow(window, name, val, color, backgroundColor, textColor)
 	if val > 1 then
 		val = 1
 	elseif val < 0 then
