@@ -1,7 +1,5 @@
 return @class:require("../Module.lua")
-	function (init)
-		|super init|
+	function (loadModule)
 		self.name = "System"
-		return self
 	end
 end
