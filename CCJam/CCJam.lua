@@ -2,6 +2,7 @@
 local Monitor = require("Monitor.lua")
 local Module = require("Module.lua")
 local EventManager = require("EventManager.lua")
+local Server = require("Server.lua")
 
 -- Root directory
 local root = fs.getDir(shell.getRunningProgram())
@@ -77,9 +78,12 @@ end
 -- Event manager
 local eventManager = ||EventManager new| initWithEventHandlers:eventHandlers|
 
+-- Server
+local server = ||Server new| initWithConfig:serverConfig|
+
 -- start parallellizing
 |eventManager update|
-parallel.waitForAny(eventManager.start, function()
+parallel.waitForAny(eventManager.start, server.start, function()
 	while true do
 		sleep(generalConfig.updateTime)
 		|eventManager update|
