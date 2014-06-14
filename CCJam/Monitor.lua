@@ -1,4 +1,5 @@
 local ccWindow = window
+local eu = require("EventUtils.lua")
 
 return @class:LuaObject
 	@property window
@@ -6,6 +7,7 @@ return @class:LuaObject
 	@property eventParameters
 	
 	local index
+	local subWindow
 
 	function (initWithWindow:window modules:modules defaultModule:default eventParameters:...)
 		|super init|
@@ -20,14 +22,18 @@ return @class:LuaObject
 		end
 		index = index or 1
 
+		local w, h = window.getSize()
+		subWindow = ccWindow.create(window, 1, 1, w, h-2)
+
 		return self
 	end
 
 	function (update)
 		local w, h = window.getSize()
+		subWindow.reposition(1,1, w, h - 2)
 
 		local module = modules[index]
-		|module drawInWindow:ccWindow.create(window, 1, 1, w, h-2)|
+		|module drawInWindow:subWindow|
 
 		local bgc, tc = |module navBarColors|
 		window.setCursorPos(1, h - 1)
@@ -41,6 +47,9 @@ return @class:LuaObject
 	end
 
 	function (respondToEvent:event)
+		if event[1] == "monitor_resize" or event[1] == "term_resize" then
+			return true
+		end
 		if not eu.matchesParameters(event, eventParameters) then
 			return false
 		end

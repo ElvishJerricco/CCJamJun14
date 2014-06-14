@@ -23,6 +23,7 @@ return @class:require("../Module.lua")
 		local usedSpace = getUsedSpace("")
 		local totalSpace = usedSpace + freeSpace
 
+		win.setBackgroundColor(colors.black)
 		win.clear()
 		win.setCursorPos(1,2)
 		gu.drawBarInWindow(

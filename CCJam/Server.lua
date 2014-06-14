@@ -1,10 +1,13 @@
 local mu = require("MonitorUtils.lua")
+local eu = require("EventUtils.lua")
 local NetworkedMonitor = require("NetworkedMonitor.lua")
 
 return @class:LuaObject
 	function (initWithConfig:config)
 		|super init|
-		rednet.open(config.modem)
+		for i,v in ipairs(config.modems) do
+			rednet.open(v)
+		end
 		rednet.host("elvishjerricco.ccjam.jun14", config.hostname)
 		return self
 	end
