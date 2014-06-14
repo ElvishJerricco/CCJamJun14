@@ -1,5 +1,3 @@
-local Event = require("Event.lua")
-
 return @class:LuaObject
 	local eventHandlers = {}
 
@@ -21,7 +19,7 @@ return @class:LuaObject
 
 	function (start)
 		while true do
-			local event = ||Event new| initWithParameters:{os.pullEvent()}|
+			local event = {os.pullEvent()}
 			event.manager = self
 			local shouldUpdate
 			for i,v in ipairs(eventHandlers) do

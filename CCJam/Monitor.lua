@@ -41,12 +41,12 @@ return @class:LuaObject
 	end
 
 	function (respondToEvent:event)
-		if not |event matchesParameters:eventParameters| then
+		if not eu.matchesParameters(event, eventParameters) then
 			return false
 		end
 
 		local w, h = window.getSize()
-		local x, y = |event select:3|
+		local x, y = eu.select(event, 3)
 		if y >= h - 2 then
 			if x <= 2 then
 				index = index - 1

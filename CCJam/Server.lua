@@ -13,7 +13,7 @@ return @class:LuaObject
 	end
 
 	function (respondToEvent:event)
-		local eventType, senderId, msg, protocol = |event select:1|
+		local eventType, senderId, msg, protocol = eu.select(event, 1)
 		if eventType == "rednet_message" and protocol == "elvishjerricco.ccjam.jun14" and type(msg) == "table" then
 			if msg.type == "connect" then
 				local window = mu.createNetworkedWindow(senderId, msg.termWidth, msg.termHeight)
