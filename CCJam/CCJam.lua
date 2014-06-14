@@ -1,6 +1,7 @@
 -- Import classes
 local Monitor = require("Monitor.lua")
 local Module = require("Module.lua")
+local EventManager = require("EventManager.lua")
 
 -- Root directory
 local root = fs.getDir(shell.getRunningProgram())
@@ -35,28 +36,52 @@ local function getConfig(name)
 end
 
 -- Load configs
+local generalConfig = getConfig("general.cfg")
 local monitorConfig = getConfig("monitors.cfg")
 local serverConfig = getConfig("server.cfg")
 
--- Load all the monitors requested by the config
-local monitors = {}
-table.insert(monitors, ||Monitor new| initWithEventParameters:"mouse_click", 1|)
+-- start constructing things that are event handlers
+local eventHandlers = {}
 
-for k,v in pairs(monitorConfig) do
-	table.insert(monitors, ||Monitor new| initWithEventParameters:"monitor_touch", k|)
-end
-
--- Load modules
+-- modules
 local modules = {}
-for i,v in ipairs(fs.list(combine(root, "modules"))) do
+for i,v in ipairs(fs.list(fs.combine(root, "modules"))) do
 	local ModuleClass = require(fs.combine("modules", v))
-	assert(ModuleClass and |ModuleClass isSubclassOf:Module|, "Modules must return a subclass of Module")
+	assert(ModuleClass and |ModuleClass isSubclassOf:Module|, "Modules must return a subclass of Module: "..v)
 	local module = ||ModuleClass new| init|
 	table.insert(modules, module)
 end
 
 for i,v in ipairs(modules) do
 	|v loadModule|
+	table.insert(eventHandlers, v)
+end
+table.sort(modules, function(a,b) return a.name < b.name end)
+
+-- monitors
+table.insert(eventHandlers, ||Monitor new| initWithWindow:term.current()
+	                                              modules:modules
+	                                        defaultModule:monitorConfig.default
+	                                      eventParameters:"mouse_click", 1|)
+
+for k,v in pairs(monitorConfig) do
+	local mon = peripheral.wrap(k)
+	if mon then
+		table.insert(eventHandlers, ||Monitor new| initWithWindow:mon
+			                                              modules:modules
+			                                        defaultModule:v
+			                                      eventParameters:"monitor_touch", k|)
+	end
 end
 
--- Link modules and monitors
+-- Event manager
+local eventManager = ||EventManager new| initWithEventHandlers:eventHandlers|
+
+-- start parallellizing
+|eventManager update|
+parallel.waitForAny(eventManager.start, function()
+	while true do
+		sleep(generalConfig.updateTime)
+		|eventManager update|
+	end
+end)

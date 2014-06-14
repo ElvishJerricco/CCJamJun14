@@ -6,4 +6,11 @@ return @class:LuaObject
 
 	function (drawInWindow:win)
 	end
+
+	function (update)
+	end
+
+	function (respondToEvent:...)
+		return false
+	end
 end
