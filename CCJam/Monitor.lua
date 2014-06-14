@@ -35,15 +35,29 @@ return @class:LuaObject
 		local module = modules[index]
 		|module drawInWindow:subWindow|
 
-		local bgc, tc = |module navBarColors|
+		local colors = |module navBarColors|
+
+		window.setBackgroundColor(colors.background)
 		window.setCursorPos(1, h - 1)
-		window.setBackgroundColor(bgc)
-		window.setTextColor(tc)
-		window.write("<<"..(" "):rep(w - 4)..">>")
+		window.clearLine()
 		window.setCursorPos(1, h)
-		window.write("<<"..(" "):rep(w - 4)..">>")
+		window.clearLine()
+
+		window.setTextColor(colors.labelColor)
 		window.setCursorPos(math.round(w / 2) - math.round(#(module.name) / 2), h)
 		window.write(module.name)
+		
+		window.setBackgroundColor(colors.buttonBackground)
+		window.setTextColor(colors.buttonColor)
+
+		window.setCursorPos(1, h-1)
+		window.write("<<")
+		window.setCursorPos(1, h)
+		window.write("<<")
+		window.setCursorPos(w-1, h-1)
+		window.write(">>")
+		window.setCursorPos(w-1, h)
+		window.write(">>")
 	end
 
 	function (respondToEvent:event)

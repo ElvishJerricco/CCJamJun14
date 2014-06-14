@@ -15,6 +15,11 @@ return @class:LuaObject
 	end
 
 	function (navBarColors)
-		return colors.yellow, colors.black
+		return {
+			background=colors.gray,
+			labelColor=colors.white,
+			buttonBackground=colors.lightGray,
+			buttonColor=colors.white
+		}
 	end
 end
