@@ -1,8 +1,3 @@
--- util
-local function round(n)
-	return math.floor(n + .5)
-end
-
 -- API
 local gu = {}
 
@@ -19,7 +14,7 @@ gu["drawBarInWindow:named:filledTo:color:textColor:"] = function(window, name, v
 	y = y + 1
 	window.setCursorPos(x, y)
 
-	local barWidth = round(window.getSize() * val)
+	local barWidth = math.round(window.getSize() * val)
 
 	window.setBackgroundColor(color)
 	window.setTextColor(color)

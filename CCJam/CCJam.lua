@@ -13,6 +13,11 @@ local function combine(str1, str2, ...)
 	return fs.combine(str1, combine(str2, ...))
 end
 
+-- Utility; math.round really should exist
+function math.round(n)
+	return math.floor(n + .5)
+end
+
 -- Utility; Get the config named: name
 local function getConfig(name)
 	local file = assert(
