@@ -15,7 +15,7 @@ return @class:LuaObject
 			return false
 		end
 
-		for i,v in ipairs(parameters)
+		for i,v in ipairs(parameters) do
 			if v ~= eventParameters[i] then
 				return false
 			end
