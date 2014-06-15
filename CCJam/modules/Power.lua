@@ -22,7 +22,7 @@ return @class:require("../Module.lua")
 				end
 			end
 		end
-		for i,v in ipairs(solidBoilers) do
+		for i,v in ipairs(liquidBoilers) do
 			table.insert(bars, {name="Liquid Boiler "..i.." Temp",val=v.getTemperature() / 1000})
 			for i2,v2 in ipairs(v.getTankInfo("north")) do
 				if v2.rawName then
