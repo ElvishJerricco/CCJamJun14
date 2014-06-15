@@ -5,6 +5,15 @@ return @class:LuaObject
 		table.insert(eventHandlers, handler)
 	end
 
+	function (removeEventHandler:handler)
+		for i,v in ipairs(eventHandlers) do
+			if v == handler then
+				table.remove(eventHandlers, i)
+				break
+			end
+		end
+	end
+
 	function (addHandlersFromArray:handlers)
 		for i,v in ipairs(handlers) do
 			table.insert(eventHandlers, v)
@@ -23,7 +32,8 @@ return @class:LuaObject
 			event.manager = self
 			local shouldUpdate
 			for i,v in ipairs(eventHandlers) do
-				shouldUpdate = shouldUpdate or |v respondToEvent:event|
+				local thisHandlerShouldUpdate = |v respondToEvent:event|
+				shouldUpdate = shouldUpdate or thisHandlerShouldUpdate
 			end
 
 			if shouldUpdate then

@@ -24,7 +24,7 @@ function mu.new(window, shouldSpace, ...)
 	return mu.newWithClass(Monitor, window, shouldSpace, ...)
 end
 
-function mu.createNetworkedWindow(senderId, w, h)
+function mu.createNetworkWindow(sendFunc, w, h)
 	local window = {}
 	local cx, cy = 1,1
 	local bg, fg = colors.black, colors.white
@@ -89,7 +89,7 @@ function mu.createNetworkedWindow(senderId, w, h)
 	end
 
 	function window.sendScreen()
-		rednet.send(senderId, {type="screen", lines=tLines}, "elvishjerricco.ccjam.jun14")
+		sendFunc(tLines)
 	end
 
 	return window
