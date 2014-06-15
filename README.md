@@ -10,7 +10,7 @@ In the CCJam/modules folder, you will find files for each module. The modules ar
 
 Modules have five methods
 
-'''
+```
 function (loadModule)
 -- Load all things for the module, and make sure to set self.name
 
@@ -27,7 +27,7 @@ function (respondToEvent:event)
 function (navBarColors)
 -- If a module would like to change the appearance of the nav bar when on this module's page,
 -- override this method and return the desired colors
-'''
+```
 
 Event Based
 ===========
@@ -36,13 +36,13 @@ Any module can respond to any event. This allows a module to react to any event 
 
 Any handlers added to the event manager need only implement two methods
 
-'''
+```
 function (update)
 -- Called whenever a display update is requested.
 
 function (respondToEvent:event)
 -- Asks you to respond to an event. Return true if you'd like an update to result from this event, or false if you don't care
-'''
+```
 
 Usage
 =====
