@@ -6,6 +6,7 @@ local Module = require("Module.lua")
 local EventManager = require("EventManager.lua")
 local Server = require("Server.lua")
 local mu = require("MonitorUtils.lua")
+local debug = require("debug.lua")
 
 -- Root directory
 local root = fs.getDir(shell.getRunningProgram())
@@ -43,6 +44,12 @@ end
 local generalConfig = getConfig("general.cfg")
 local monitorConfig = getConfig("monitors.cfg")
 local serverConfig = getConfig("server.cfg")
+local debugConfig = getConfig("debug.cfg")
+
+-- setup debug
+debug.setEnabled(debugConfig.enabled)
+debug.setMonitor(peripheral.wrap(debugConfig.monitor))
+debug.print("Debug initialized")
 
 -- Event manager
 local eventManager = ||EventManager new| init|
