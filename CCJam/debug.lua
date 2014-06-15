@@ -30,10 +30,12 @@ end
 
 function debug.setMonitor(m)
 	mon = m
-	mon.setTextColor(colors.white)
-	mon.setBackgroundColor(colors.black)
-	mon.setCursorPos(1,1)
-	mon.clear()
+	if enabled then
+		mon.setTextColor(colors.white)
+		mon.setBackgroundColor(colors.black)
+		mon.setCursorPos(1,1)
+		mon.clear()
+	end
 end
 
 function debug.setEnabled(bool)

@@ -47,8 +47,9 @@ local serverConfig = getConfig("server.cfg")
 local debugConfig = getConfig("debug.cfg")
 
 -- setup debug
-debug.setEnabled(debugConfig.enabled)
-debug.setMonitor(peripheral.wrap(debugConfig.monitor))
+local debugMon = peripheral.wrap(debugConfig.monitor)
+debug.setEnabled(debugConfig.enabled and debugMon)
+debug.setMonitor(debugMon)
 debug.print("Debug initialized")
 
 -- Event manager
