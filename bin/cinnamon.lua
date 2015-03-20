@@ -1,7 +1,12 @@
 print("Loading...")
 
+local package = grin.packageFromExecutable(shell.getRunningProgram())
+
+-- Root directory
+local root = grin.resolvePackageRoot(package)
+
 -- Add to LuaLua mod path
-|Modules appendPath:"/"..grin.combine(grin.resolvePackageRoot("ElvishJerricco/Cinnamon"), "mod")|
+|Modules appendPath:"/"..grin.combine(grin.resolvePackageRoot(package), "mod")|
 
 -- Import classes
 local Monitor = require("Monitor.lua")
@@ -10,9 +15,6 @@ local EventManager = require("EventManager.lua")
 local Server = require("Server.lua")
 local mu = require("MonitorUtils.lua")
 local debug = require("debug.lua")
-
--- Root directory
-local root = fs.getDir(shell.getRunningProgram())
 
 -- Utility; The way fs.combine SHOULD behave
 local combine = grin.combine
