@@ -14,12 +14,7 @@ local debug = require("debug.lua")
 local root = fs.getDir(shell.getRunningProgram())
 
 -- Utility; The way fs.combine SHOULD behave
-local function combine(str1, str2, ...)
-	if not str2 then
-		return str1
-	end
-	return fs.combine(str1, combine(str2, ...))
-end
+local combine = grin.combine
 
 -- Utility; math.round really should exist
 function math.round(n)
