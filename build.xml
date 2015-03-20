@@ -19,9 +19,9 @@
     <target name="base64" depends="make_archive">
         <exec executable="base64">
             <arg value="-i" />
-            <arg value="build/LuaLua.zip" />
+            <arg value="build/Cinnamon.zip" />
             <arg value="-o" />
-            <arg value="build/LuaLua.zip.base64" />
+            <arg value="build/Cinnamon.zip.base64" />
         </exec>
     </target>
 
