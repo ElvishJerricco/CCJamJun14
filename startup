@@ -1,2 +1,0 @@
-shell.run("LuaLua/LuaLua/load.lua")
-shell.run("bg CCJam/CCJam.lua")

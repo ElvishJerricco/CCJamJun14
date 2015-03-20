@@ -1,0 +1,30 @@
+<project name="CINNAMON" default="main">
+    <target name="make_archive">
+        <copy todir="build/Cinnamon/bin">
+            <fileset dir="bin" />
+        </copy>
+        <copy todir="build/Cinnamon/config">
+            <fileset dir="config" />
+        </copy>
+        <copy todir="build/Cinnamon/mod">
+            <fileset dir="mod" />
+        </copy>
+        <copy todir="build/Cinnamon/modules">
+            <fileset dir="modules" />
+        </copy>
+        <copy file="grin.json" todir="build/Cinnamon" />
+        <zip zip64Mode="never" destfile="build/Cinnamon.zip" basedir="build/Cinnamon" />
+    </target>
+
+    <target name="base64" depends="make_archive">
+        <exec executable="base64">
+            <arg value="-i" />
+            <arg value="build/LuaLua.zip" />
+            <arg value="-o" />
+            <arg value="build/LuaLua.zip.base64" />
+        </exec>
+    </target>
+
+    <target name="main" depends="base64">
+    </target>
+</project>

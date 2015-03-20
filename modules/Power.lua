@@ -1,6 +1,6 @@
-local gu = require("../GraphicsUtils.lua")
+local gu = require("GraphicsUtils.lua")
 
-return @class:require("../Module.lua")
+return @class:require("Module.lua")
 	function (loadModule)
 		self.name = "Power"
 	end

@@ -1,12 +1,12 @@
-CCJamJun14
+Cinnamon
 ==========
 
-My entry is an event based, modular, monitoring system. It comes default with power and system modules. It uses LuaLua to make everything object oriented, making code cleaner. It's designed to show any number of modules on any number of screens, even remote ones.
+An event based, modular, monitoring system. It comes default with power and system modules. It uses LuaLua to make everything object oriented, making code cleaner. It's designed to show any number of modules on any number of screens, even remote ones.
 
 Modular
 =======
 
-In the CCJam/modules folder, you will find files for each module. The modules are loaded through LuaLua's require function, so modules have to return something. That something in this case, is a class that subclasses Module and implements all the specific behavior for the module.
+In the modules folder, you will find files for each module. The modules are loaded through LuaLua's require function, so modules have to return something. That something in this case, is a class that subclasses Module and implements all the specific behavior for the module.
 
 Modules have five methods
 
@@ -47,6 +47,6 @@ function (respondToEvent:event)
 Usage
 =====
 
-Start up a computer with this installed and the startup file should load LuaLua and launch the program in the background (so that you can keep using the computer). Any monitors configured (via monitors.cfg) to display modules will begin showing the specified screen. Use the navigation buttons to switch screens on the fly.
+Install via grin-get. Run cinnamon. Any monitors configured (via monitors.cfg) to display modules will begin showing the specified screen. Use the navigation buttons to switch screens on the fly.
 
 This program can also display on remote screens. Use any computer capable of communicating with the main (server) computer via rednet. Put client.lua on that computer. Run client.lua <hostname>. Hostname is specified in server.cfg. Now the client computer will be used as a monitor, just like in-world monitors or the screen of the server computer.

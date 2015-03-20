@@ -1,5 +1,7 @@
 print("Loading...")
 
+|Module addPath:"/"..grin.combine(grin.resolvePackageRoot("ElvishJerricco/Cinnamon"), "mod")|
+
 -- Import classes
 local Monitor = require("Monitor.lua")
 local Module = require("Module.lua")
@@ -58,7 +60,7 @@ local eventManager = ||EventManager new| init|
 -- modules
 local modules = {}
 for i,v in ipairs(fs.list(fs.combine(root, "modules"))) do
-	local ModuleClass = require(fs.combine("modules", v))
+	local ModuleClass = require(fs.combine("../modules", v))
 	assert(ModuleClass and |ModuleClass isSubclassOf:Module|, "Modules must return a subclass of Module: "..v)
 	local module = ||ModuleClass new| init|
 	table.insert(modules, module)

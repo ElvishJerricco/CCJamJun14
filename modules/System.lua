@@ -1,4 +1,4 @@
-local gu = require("../GraphicsUtils.lua")
+local gu = require("GraphicsUtils.lua")
 
 local function getUsedSpace(path)
 	local total = 0
@@ -15,7 +15,7 @@ local function getUsedSpace(path)
 	return total
 end
 
-return @class:require("../Module.lua")
+return @class:require("Module.lua")
 	function (loadModule)
 		self.name = "System"
 	end
