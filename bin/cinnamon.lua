@@ -1,6 +1,7 @@
 print("Loading...")
 
-|Module addPath:"/"..grin.combine(grin.resolvePackageRoot("ElvishJerricco/Cinnamon"), "mod")|
+-- Add to LuaLua mod path
+|Modules appendPath:"/"..grin.combine(grin.resolvePackageRoot("ElvishJerricco/Cinnamon"), "mod")|
 
 -- Import classes
 local Monitor = require("Monitor.lua")
