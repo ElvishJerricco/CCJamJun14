@@ -11,17 +11,27 @@ return @class:LuaObject
 	local index
 
 	local function incrementIndex()
-		index = index - 1
-		if index < 1 then
-			index = #modules
-		end
+		local tries = 0
+		repeat
+			index = index - 1
+			if index < 1 then
+				index = #modules
+			end
+			local module = modules[index]
+			tries = tries + 1
+		until not module.disabled or tries == #modules
 	end
 
 	local function decrementIndex()
-		index = index + 1
-		if index > #modules then
-			index = 1
-		end
+		local tries = 0
+		repeat
+			index = index + 1
+			if index > #modules then
+				index = 1
+			end
+			local module = modules[index]
+			tries = tries + 1
+		until not module.disabled or tries == #modules
 	end
 
 	function (initWithWindow:window modules:modules defaultModule:default shouldSpace:shouldSpace eventParameters:...)
@@ -59,15 +69,10 @@ return @class:LuaObject
 			subWindow.reposition(1, 1, w, h-2)
 		end
 
-		local module
-		local tries = 0
-		repeat
-			module = modules[index]
-			if module.disabled then
-				incrementIndex()
-			end
-			tries = tries + 1
-		until not module.disabled or tries == #modules
+		local module = modules[index]
+		if modules.disabled then
+			incrementIndex()
+		end
 		|module drawInWindow:subWindow|
 
 

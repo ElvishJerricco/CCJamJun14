@@ -11,11 +11,7 @@ local function find(type)
 end
 
 return @class:require("Module.lua")
-	function (loadModule)
-		self.name = "Power"
-	end
-
-	function (update)
+	local function determineDisabled()
 		if #({find("solid_fueled_boiler_firebox")})
 		+ #({find("liquid_fueled_boiler_firebox")})
 		+ #({find("tile_thermalexpansion_cell")})
@@ -24,6 +20,15 @@ return @class:require("Module.lua")
 		else
 			self.disabled = false
 		end
+	end
+
+	function (loadModule)
+		self.name = "Power"
+		determineDisabled()
+	end
+
+	function (update)
+		determineDisabled()
 	end
 
 	function (drawInWindow:win)
