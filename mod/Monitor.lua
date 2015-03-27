@@ -7,8 +7,22 @@ return @class:LuaObject
 	@property eventParameters
 	@property shouldSpace
 	
-	local index
 	local subWindow
+	local index
+
+	local function incrementIndex()
+		index = index - 1
+		if index < 1 then
+			index = #modules
+		end
+	end
+
+	local function decrementIndex()
+		index = index + 1
+		if index > #modules then
+			index = 1
+		end
+	end
 
 	function (initWithWindow:window modules:modules defaultModule:default shouldSpace:shouldSpace eventParameters:...)
 		|super init|
@@ -45,7 +59,15 @@ return @class:LuaObject
 			subWindow.reposition(1, 1, w, h-2)
 		end
 
-		local module = modules[index]
+		local module
+		local tries = 0
+		repeat
+			module = modules[index]
+			if module.disabled then
+				incrementIndex()
+			end
+			tries = tries + 1
+		until not module.disabled or tries == #modules
 		|module drawInWindow:subWindow|
 
 
@@ -86,16 +108,10 @@ return @class:LuaObject
 		local x, y = eu.select(event, 3)
 		if y >= h - 2 then
 			if x <= 2 then
-				index = index - 1
-				if index < 1 then
-					index = #modules
-				end
+				incrementIndex()
 				return true
 			elseif x >= w - 1 then
-				index = index + 1
-				if index > #modules then
-					index = 1
-				end
+				decrementIndex()
 				return true
 			end
 		end

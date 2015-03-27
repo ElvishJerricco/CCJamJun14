@@ -1,7 +1,9 @@
 return @class:LuaObject
 	@property name
+	@property disabled
 
-	function (loadModule)	
+	function (loadModule)
+		self.disabled = false
 	end
 
 	function (drawInWindow:win)

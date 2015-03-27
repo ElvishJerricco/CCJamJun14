@@ -1,15 +1,35 @@
 local gu = require("GraphicsUtils.lua")
 
+local function find(type)
+	local found = {}
+	for i,v in ipairs(peripheral.getNames()) do
+		if peripheral.getType(v):find("^"..type) then
+			table.insert(found, peripheral.wrap(v))
+		end
+	end
+	return unpack(found)
+end
+
 return @class:require("Module.lua")
 	function (loadModule)
 		self.name = "Power"
 	end
 
+	function (update)
+		if #({find("solid_fueled_boiler_firebox")})
+		+ #({find("liquid_fueled_boiler_firebox")})
+		+ #({find("tile_thermalexpansion_cell")})
+		== 0 then
+			self.disabled = true
+		else
+			self.disabled = false
+		end
+	end
+
 	function (drawInWindow:win)
-		local solidBoilers = {peripheral.find("solid_fueled_boiler_firebox")}
-		local liquidBoilers = {peripheral.find("liquid_fueled_boiler_firebox")}
-		local energyCells = {peripheral.find("cofh_thermalexpansion_energycell")}
-		local aeControllers = {peripheral.find("appeng_me_tilecontroller")} -- getMaxMJStored -- getMJStored
+		local solidBoilers = {find("solid_fueled_boiler_firebox")}
+		local liquidBoilers = {find("liquid_fueled_boiler_firebox")}
+		local energyCells = {find("tile_thermalexpansion_cell")}
 
 		-- do all calculations before any drawing
 		local bars = {}
