@@ -13,8 +13,8 @@ end
 return @class:require("Module.lua")
 	local function determineDisabled()
 		if #({find("solid_fueled_boiler_firebox")})
-		+ #({find("liquid_fueled_boiler_firebox")})
-		+ #({find("tile_thermalexpansion_cell")})
+		+  #({find("liquid_fueled_boiler_firebox")})
+		+  #({find("tile_thermalexpansion_cell")})
 		== 0 then
 			self.disabled = true
 		else
