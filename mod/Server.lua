@@ -16,7 +16,7 @@ return @class:LuaObject
 		for i,v in ipairs(config.modems) do
 			rednet.open(v)
 		end
-		rednet.host("elvishjerricco.ccjam.jun14", config.hostname)
+		rednet.host("elvishjerricco.cinnamon", config.hostname)
 
 		self.keepAlive = config.keepAlive
 		timer = os.startTimer(self.keepAlive)
@@ -41,12 +41,12 @@ return @class:LuaObject
 		end
 
 		msg.id = c.uid
-		rednet.send(c.computerId, msg, "elvishjerricco.ccjam.jun14")
+		rednet.send(c.computerId, msg, "elvishjerricco.cinnamon")
 	end
 
 	function (respondToEvent:event)
 		local eventType, senderId, msg, protocol = eu.select(event, 1)
-		if eventType == "rednet_message" and protocol == "elvishjerricco.ccjam.jun14" and type(msg) == "table" then
+		if eventType == "rednet_message" and protocol == "elvishjerricco.cinnamon" and type(msg) == "table" then
 			if msg.type == "connect" then
 				local id = senderId ..":".. os.time() -- should be sufficiently unique
 
