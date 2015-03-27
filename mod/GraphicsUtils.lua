@@ -2,7 +2,8 @@
 local gu = {}
 
 --remind me to implement a syntax for this in LuaLua
-function gu.drawBarInWindow(window, name, val, color, backgroundColor, textColor, thin)
+function gu.drawBarInWindow(window, name, val, color, backgroundColor, textColor, thin, xoffset)
+	xoffset = xoffset or 0
 	if val > 1 then
 		val = 1
 	elseif val < 0 then
@@ -10,8 +11,9 @@ function gu.drawBarInWindow(window, name, val, color, backgroundColor, textColor
 	end
 
 	local width, height = window.getSize()
+	width = width - xoffset
 	local x, y = window.getCursorPos()
-	x = 1
+	x = xoffset + 1
 	window.setCursorPos(x, y)
 
 	local barWidth = math.round(width * val)
