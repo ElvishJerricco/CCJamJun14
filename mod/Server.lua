@@ -5,6 +5,7 @@ local NetworkClient = require("NetworkClient.lua")
 
 return @class:LuaObject
 	@property keepAlive
+	@property(readonly) hostname = _hostname
 
 	local timer
 	local clients = {}
@@ -16,7 +17,8 @@ return @class:LuaObject
 		for i,v in ipairs(config.modems) do
 			rednet.open(v)
 		end
-		rednet.host("elvishjerricco.cinnamon", config.hostname)
+		_hostname = config.hostname
+		rednet.host("elvishjerricco.cinnamon", self.hostname)
 
 		self.keepAlive = config.keepAlive
 		timer = os.startTimer(self.keepAlive)
@@ -92,5 +94,9 @@ return @class:LuaObject
 			timer = os.startTimer(keepAlive)
 		end
 		return false
+	end
+
+	function (terminate)
+		rednet.unhost("elvishjerricco.cinnamon", self.hostname)
 	end
 end

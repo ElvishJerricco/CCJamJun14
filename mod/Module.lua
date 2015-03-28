@@ -24,4 +24,7 @@ return @class:LuaObject
 			buttonColor=colors.white
 		}
 	end
+
+	function (terminate)
+	end
 end

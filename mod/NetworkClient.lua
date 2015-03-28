@@ -18,4 +18,7 @@ return @class:LuaObject
 	function (respondToEvent:event)
 		return |monitor respondToEvent:event|
 	end
+
+	function (terminate)
+	end
 end

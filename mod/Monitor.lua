@@ -111,4 +111,7 @@ return @class:LuaObject
 
 		return false
 	end
+
+	function (terminate)
+	end
 end

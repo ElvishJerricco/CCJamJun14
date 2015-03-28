@@ -41,4 +41,10 @@ return @class:LuaObject
 			end
 		end
 	end
+
+	function (terminate)
+		for i,v in ipairs(eventHandlers) do
+			|v terminate|
+		end
+	end
 end

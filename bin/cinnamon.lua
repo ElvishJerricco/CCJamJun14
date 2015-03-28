@@ -88,6 +88,20 @@ end
 -- Server
 |eventManager addEventHandler:||Server new| initWithConfig:serverConfig||
 
+-- Terminate protection for unhosting and such
+do
+	local old = os.pullEvent
+	function os.pullEvent(...)
+		local eventData = {os.pullEventRaw(...)}
+	    if eventData[1] == "terminate" then
+	    	|eventManager terminate|
+	    	os.pullEvent = old
+	        error("Terminated", 0)
+	    end
+	    return unpack(eventData)
+	end
+end
+
 -- start parallellizing
 |eventManager update|
 parallel.waitForAny(eventManager.start, function()
