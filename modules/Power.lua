@@ -3,8 +3,9 @@ local gu = require("GraphicsUtils.lua")
 local function find(type)
 	local found = {}
 	for i,v in ipairs(peripheral.getNames()) do
-		if peripheral.getType(v):find("^"..type) then
-			table.insert(found, peripheral.wrap(v))
+		local p = peripheral.wrap(v)
+		if p.listSources and p.listSources()[type] then
+			table.insert(found, p)
 		end
 	end
 	return unpack(found)
@@ -12,10 +13,7 @@ end
 
 return @class:require("Module.lua")
 	local function determineDisabled()
-		if #({find("solid_fueled_boiler_firebox")})
-		+  #({find("liquid_fueled_boiler_firebox")})
-		+  #({find("tile_thermalexpansion_cell")})
-		== 0 then
+		if #({find("rf_provider")}) == 0 then
 			self.disabled = true
 		else
 			self.disabled = false
@@ -32,32 +30,13 @@ return @class:require("Module.lua")
 	end
 
 	function (drawInWindow:win)
-		local solidBoilers = {find("solid_fueled_boiler_firebox")}
-		local liquidBoilers = {find("liquid_fueled_boiler_firebox")}
-		local energyCells = {find("tile_thermalexpansion_cell")}
+		local energyCells = {find("rf_provider")}
 
 		-- do all calculations before any drawing
 		local bars = {}
 
-		for i,v in ipairs(solidBoilers) do
-			table.insert(bars, {name="Solid Boiler "..i.." Temp",val=v.getTemperature() / 1000})
-			for i2,v2 in ipairs(v.getTankInfo("north")) do
-				if v2.rawName then
-					table.insert(bars, {name="Solid Boiler "..i.." "..v2.rawName,val=v2.amount/v2.capacity})
-				end
-			end
-		end
-		for i,v in ipairs(liquidBoilers) do
-			table.insert(bars, {name="Liquid Boiler "..i.." Temp",val=v.getTemperature() / 1000})
-			for i2,v2 in ipairs(v.getTankInfo("north")) do
-				if v2.rawName then
-					table.insert(bars, {name="Liquid Boiler "..i.." "..v2.rawName,val=v2.amount/v2.capacity})
-				end
-			end
-		end
-
 		for i,v in ipairs(energyCells) do
-			table.insert(bars, {name="Energy Cell "..i,val=v.getEnergyStored("north")/v.getMaxEnergyStored("north")})
+			table.insert(bars, {name="RF Provider "..i,val=v.getEnergyStored("north")/v.getMaxEnergyStored("north")})
 		end
 
 		local w,h = win.getSize()
