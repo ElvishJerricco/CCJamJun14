@@ -14,6 +14,7 @@ local Module = require("Module.lua")
 local EventManager = require("EventManager.lua")
 local RednetConfiguration = require("RednetConfiguration.lua")
 local Server = require("Server.lua")
+local WorkerServer = require("WorkerServer.lua")
 local mu = require("MonitorUtils.lua")
 local debug = require("debug.lua")
 
@@ -89,8 +90,11 @@ end
 -- Server
 local rcfg = ||RednetConfiguration new| initWithConfig:serverConfig|
 local server = ||Server new| initWithRednetConfig:rcfg|
+local workerServer = ||WorkerServer new| initWithRednetConfig:rcfg|
 |server open|
+|workerServer open|
 |eventManager addEventHandler:server|
+|eventManager addEventHandler:workerServer|
 
 
 -- Terminate protection for unhosting and such
