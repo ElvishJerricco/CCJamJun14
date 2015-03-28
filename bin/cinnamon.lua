@@ -73,7 +73,7 @@ table.sort(modules, function(a,b) return a.name < b.name end)
 -- monitors
 mu.setModuleTable(modules)
 mu.setDefaultModule(monitorConfig.default)
-|eventManager addEventHandler:mu.new(term.current(), true, "mouse_click", 1)|
+|eventManager addEventHandler:mu.new(term.current(), "mouse_click", 1)|
 
 for k,v in pairs(monitorConfig) do
 	local mon = peripheral.wrap(k)
@@ -81,7 +81,6 @@ for k,v in pairs(monitorConfig) do
 		|eventManager addEventHandler:||Monitor new| initWithWindow:mon
 			                                                modules:modules
 			                                          defaultModule:v
-			                                            shouldSpace:false
 			                                        eventParameters:"monitor_touch", k||
 	end
 end

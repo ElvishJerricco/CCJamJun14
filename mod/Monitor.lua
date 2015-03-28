@@ -34,11 +34,10 @@ return @class:LuaObject
 		until not module.disabled or tries == #modules
 	end
 
-	function (initWithWindow:window modules:modules defaultModule:default shouldSpace:shouldSpace eventParameters:...)
+	function (initWithWindow:window modules:modules defaultModule:default eventParameters:...)
 		|super init|
 		self.window = window
 		self.modules = modules
-		self.shouldSpace = shouldSpace
 		eventParameters = {...}
 
 		for i,v in ipairs(modules) do
@@ -49,25 +48,14 @@ return @class:LuaObject
 		index = index or 1
 
 		local w, h = window.getSize()
-		if shouldSpace then
-			subWindow = ccWindow.create(window, 1, 2, w, h-3)
-		else
-			subWindow = ccWindow.create(window, 1, 1, w, h-2)
-		end
+		subWindow = ccWindow.create(window, 1, 1, w, h-2)
 
 		return self
 	end
 
 	function (update)
 		local w, h = window.getSize()
-		if shouldSpace then
-			subWindow.reposition(1, 2, w, h-3)
-			window.setBackgroundColor(colors.black)
-			window.setCursorPos(1,1)
-			window.clearLine()
-		else
-			subWindow.reposition(1, 1, w, h-2)
-		end
+		subWindow.reposition(1, 1, w, h-2)
 
 		local module = modules[index]
 		if modules.disabled then

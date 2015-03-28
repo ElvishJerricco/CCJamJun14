@@ -12,11 +12,10 @@ function mu.setDefaultModule(str)
 	default = str
 end
 
-function mu.newWithClass(Class, window, shouldSpace, ...)
+function mu.newWithClass(Class, window, ...)
 	return ||Class new| initWithWindow:window
 	                           modules:modules
 	                     defaultModule:default
-	                       shouldSpace:shouldSpace
 	                   eventParameters:...|
 end
 

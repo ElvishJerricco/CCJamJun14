@@ -53,7 +53,7 @@ return @class:LuaObject
 				local window = mu.createNetworkWindow(function(tLines)
 					|@ sendMessage:{type="screen", lines=tLines} client:id|
 				end, msg.termWidth, msg.termHeight)
-				local client = ||NetworkClient new| initWithMonitor:mu.newWithClass(NetworkMonitor, window, true, "remote_click", id)
+				local client = ||NetworkClient new| initWithMonitor:mu.newWithClass(NetworkMonitor, window, "remote_click", id)
 				                                                uid:id
 				                                         computerId:senderId|
 				|event.manager addEventHandler:client|

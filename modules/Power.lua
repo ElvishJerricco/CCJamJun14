@@ -26,7 +26,7 @@ return @class:require("Module.lua")
 		local bars = {}
 
 		for i,v in ipairs(energyCells) do
-			table.insert(bars, {name="RF Provider "..i,val=v.getEnergyStored("north")/v.getMaxEnergyStored("north")})
+			table.insert(bars, {name="RF Provider "..i,val=v.getEnergyStored()/v.getMaxEnergyStored()})
 		end
 
 		local w,h = win.getSize()
