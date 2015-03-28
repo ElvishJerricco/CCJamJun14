@@ -12,6 +12,7 @@ local root = grin.resolvePackageRoot(package)
 local Monitor = require("Monitor.lua")
 local Module = require("Module.lua")
 local EventManager = require("EventManager.lua")
+local RednetConfiguration = require("RednetConfiguration.lua")
 local Server = require("Server.lua")
 local mu = require("MonitorUtils.lua")
 local debug = require("debug.lua")
@@ -86,7 +87,11 @@ for k,v in pairs(monitorConfig) do
 end
 
 -- Server
-|eventManager addEventHandler:||Server new| initWithConfig:serverConfig||
+local rcfg = ||RednetConfiguration new| initWithConfig:serverConfig|
+local server = ||Server new| initWithRednetConfig:rcfg|
+|server open|
+|eventManager addEventHandler:server|
+
 
 -- Terminate protection for unhosting and such
 do

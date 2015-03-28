@@ -4,26 +4,24 @@ local NetworkMonitor = require("NetworkMonitor.lua")
 local NetworkClient = require("NetworkClient.lua")
 
 return @class:LuaObject
-	@property keepAlive
-	@property(readonly) hostname = _hostname
+	@property(readonly) rednetConfig = _rcfg
 
 	local timer
 	local clients = {}
 	local livingClients = {}
 	local newClients = {} -- track clients not to be removed at next timer
 
-	function (initWithConfig:config)
+	function (initWithRednetConfig:rcfg)
 		|super init|
-		for i,v in ipairs(config.modems) do
-			rednet.open(v)
-		end
-		_hostname = config.hostname
-		rednet.host("elvishjerricco.cinnamon", self.hostname)
-
-		self.keepAlive = config.keepAlive
-		timer = os.startTimer(self.keepAlive)
+		_rcfg = rcfg
 
 		return self
+	end
+
+	function (open)
+		|self.rednetConfig open|
+		rednet.host("elvishjerricco.cinnamon", self.rednetConfig.hostname)
+		timer = os.startTimer(self.rednetConfig.keepAlive)
 	end
 
 	function (update)
@@ -97,6 +95,6 @@ return @class:LuaObject
 	end
 
 	function (terminate)
-		rednet.unhost("elvishjerricco.cinnamon", self.hostname)
+		rednet.unhost("elvishjerricco.cinnamon", self.rednetConfig.hostname)
 	end
 end
