@@ -1,19 +1,9 @@
 local gu = require("GraphicsUtils.lua")
-
-local function find(type)
-	local found = {}
-	for i,v in ipairs(peripheral.getNames()) do
-		local p = peripheral.wrap(v)
-		if p.listSources and p.listSources()[type] then
-			table.insert(found, p)
-		end
-	end
-	return unpack(found)
-end
+local op = require("OpenPeripheralUtil.lua")
 
 return @class:require("Module.lua")
 	local function determineDisabled()
-		if #({find("rf_provider")}) == 0 then
+		if #({op.find("rf_provider")}) == 0 then
 			self.disabled = true
 		else
 			self.disabled = false
@@ -30,7 +20,7 @@ return @class:require("Module.lua")
 	end
 
 	function (drawInWindow:win)
-		local energyCells = {find("rf_provider")}
+		local energyCells = {op.find("rf_provider")}
 
 		-- do all calculations before any drawing
 		local bars = {}
