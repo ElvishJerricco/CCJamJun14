@@ -2,7 +2,11 @@ return @class:LuaObject
 	local eventHandlers = {}
 
 	function (addEventHandler:handler)
+		assert(handler, "Expected handler, got nil", 2)
 		table.insert(eventHandlers, handler)
+		if type(handler["setEventManager:"]) == "function" then
+			|handler setEventManager:self|
+		end
 	end
 
 	function (removeEventHandler:handler)
@@ -16,7 +20,7 @@ return @class:LuaObject
 
 	function (addHandlersFromArray:handlers)
 		for i,v in ipairs(handlers) do
-			table.insert(eventHandlers, v)
+			|self addEventHandler:v|
 		end
 	end
 

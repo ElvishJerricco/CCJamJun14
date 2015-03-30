@@ -1,24 +1,21 @@
 return @class:LuaObject
-	@property monitor
 	@property(readonly) uid = _uid
 	@property(readonly) computerId = _computerId
+	@property(readonly) server = _server
 
-	function (initWithMonitor:monitor uid:uid computerId:computerId)
+	function (initWithUID:uid computerId:computerId server:server)
 		|super init|
-		self.monitor = monitor
 		_uid = uid
 		_computerId = computerId
+		_server = server
 		return self
 	end
 
-	function (update)
-		|monitor update|
+	function (sendMessage:msg)
+		msg.id = uid
+		rednet.send(computerId, msg, server.protocol)
 	end
 
-	function (respondToEvent:event)
-		return |monitor respondToEvent:event|
-	end
-
-	function (terminate)
+	function (remove)
 	end
 end

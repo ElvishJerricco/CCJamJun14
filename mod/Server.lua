@@ -3,98 +3,43 @@ local eu = require("EventUtils.lua")
 local NetworkMonitor = require("NetworkMonitor.lua")
 local NetworkClient = require("NetworkClient.lua")
 
-return @class:LuaObject
-	@property(readonly) rednetConfig = _rcfg
-
-	local timer
-	local clients = {}
-	local livingClients = {}
-	local newClients = {} -- track clients not to be removed at next timer
+return @class:require("RednetServer.lua")
+	@property eventManager -- event manager will set this
+	local monitors = {}
 
 	function (initWithRednetConfig:rcfg)
-		|super init|
-		_rcfg = rcfg
-
+		|super initWithRednetConfig:rcfg protocol:"elvishjerricco.cinnamon"|
 		return self
 	end
 
-	function (open)
-		|self.rednetConfig open|
-		rednet.host("elvishjerricco.cinnamon", self.rednetConfig.hostname)
-		timer = os.startTimer(self.rednetConfig.keepAlive)
-	end
+    function (newClientWithUID:uid computerId:computerId connectMessage:msg)
+    	local client = |super newClientWithUID:uid computerId:computerId connectMessage:msg|
 
-	function (update)
-	end
+		local window = mu.createNetworkWindow(function(tLines)
+			|client sendMessage:{type="screen", lines=tLines}|
+		end, msg.termWidth, msg.termHeight)
+		local monitor = mu.newWithClass(NetworkMonitor, window, "remote_click", id)
 
-	function (sendMessage:msg client:id)
-		local c
-		for i,v in ipairs(clients) do
-			if v.uid == id then
-				c = v
-			end
-		end
-		for i,v in ipairs(newClients) do
-			if v.uid == id then
-				c = v
-			end
-		end
+		monitor.client = client
 
-		msg.id = c.uid
-		rednet.send(c.computerId, msg, "elvishjerricco.cinnamon")
-	end
+		monitors[client] = monitor
+		|eventManager addEventHandler:monitor|
 
-	function (respondToEvent:event)
-		local eventType, senderId, msg, protocol = eu.select(event, 1)
-		if eventType == "rednet_message" and protocol == "elvishjerricco.cinnamon" and type(msg) == "table" then
-			if msg.type == "connect" then
-				local id = senderId ..":".. os.time() -- should be sufficiently unique
+    	return client
+    end
 
-				local window = mu.createNetworkWindow(function(tLines)
-					|@ sendMessage:{type="screen", lines=tLines} client:id|
-				end, msg.termWidth, msg.termHeight)
-				local client = ||NetworkClient new| initWithMonitor:mu.newWithClass(NetworkMonitor, window, "remote_click", id)
-				                                                uid:id
-				                                         computerId:senderId|
-				|event.manager addEventHandler:client|
+    function (removeClient:client)
+    	local monitor = monitors[client]
+    	monitors[client] = nil
+    	|eventManager removeEventHandler:monitor|
+    	|super removeClient|
+    end
 
-				table.insert(newClients, client)
-				|@ sendMessage:{type="giveId"} client:id|
-
-				return true
-			elseif msg.type == "click" then
-				os.queueEvent("remote_click", msg.id, msg.x, msg.y)
-				return false -- the respondToEvent: call resulting from this event will cause an update
-			elseif msg.type == "keepAliveResponse" then
-				livingClients[msg.id] = true
-				return false
-			end
-		elseif eventType == "timer" and event[2] == timer then
-			local removals = {}
-			for i,v in ipairs(clients) do
-				if not livingClients[v.uid] then
-					table.insert(removals, i)
-				end
-			end
-			for i=#removals,1,-1 do
-				|event.manager removeEventHandler:table.remove(clients, removals[i])|
-			end
-			livingClients = {}
-
-			for i,v in ipairs(newClients) do
-				table.insert(clients, v)
-			end
-			newClients = {}
-
-			for i,v in ipairs(clients) do
-				|@ sendMessage:{type="keepAlive"} client:v.uid|
-			end
-			timer = os.startTimer(keepAlive)
+    function (receiveMessage:msg)
+    	if msg.type == "click" then
+			os.queueEvent("remote_click", msg.id, msg.x, msg.y)
+			return false -- the respondToEvent: call resulting from this event will cause an update
 		end
 		return false
-	end
-
-	function (terminate)
-		rednet.unhost("elvishjerricco.cinnamon", self.rednetConfig.hostname)
-	end
+    end
 end
