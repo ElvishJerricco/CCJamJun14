@@ -1,6 +1,6 @@
 {
     "bin": "bin",
     "dependencies": [
-        "ElvishJerricco/LuaLua"
+        "Team-CC-Corp/LuaLua"
     ]
 }
