@@ -8,7 +8,7 @@ return @class:require("RednetServer.lua")
 	local monitors = {}
 
 	function (initWithRednetConfig:rcfg)
-		|super initWithRednetConfig:rcfg protocol:"elvishjerricco.cinnamon"|
+		|super initWithRednetConfig:rcfg protocol:"team_cc_corp.cinnamon"|
 		return self
 	end
 

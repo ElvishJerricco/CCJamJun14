@@ -2,7 +2,7 @@ local pu = require("PeripheralUtils.lua")
 
 return @class:require("RednetServer.lua")
     function (initWithRednetConfig:rcfg)
-        |super initWithRednetConfig:rcfg protocol:"elvishjerricco.cinnamon.worker"|
+        |super initWithRednetConfig:rcfg protocol:"team_cc_corp.cinnamon.worker"|
         return self
     end
 
