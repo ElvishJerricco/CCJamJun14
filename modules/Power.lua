@@ -1,9 +1,9 @@
 local gu = require("GraphicsUtils.lua")
-local op = require("OpenPeripheralUtil.lua")
+local periph = require("PeripheralUtils.lua")
 
 return @class:require("Module.lua")
 	local function determineDisabled()
-		if #({op.find("rf_provider")}) == 0 then
+		if #({periph.find("rf_provider")}) == 0 then
 			self.disabled = true
 		else
 			self.disabled = false
@@ -20,7 +20,7 @@ return @class:require("Module.lua")
 	end
 
 	function (drawInWindow:win)
-		local energyCells = {op.find("rf_provider")}
+		local energyCells = {periph.find("rf_provider")}
 
 		-- do all calculations before any drawing
 		local bars = {}

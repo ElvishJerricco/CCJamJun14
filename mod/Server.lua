@@ -35,7 +35,7 @@ return @class:require("RednetServer.lua")
     	|super removeClient|
     end
 
-    function (receiveMessage:msg)
+    function (receiveMessage:msg client:client)
     	if msg.type == "click" then
 			os.queueEvent("remote_click", msg.id, msg.x, msg.y)
 			return false -- the respondToEvent: call resulting from this event will cause an update

@@ -39,7 +39,7 @@ return @class:LuaObject
         end
     end
 
-    function (receiveMessage:msg)
+    function (receiveMessage:msg client:client)
         return false
     end
 
@@ -82,7 +82,7 @@ return @class:LuaObject
                 livingClients[msg.id] = true
                 return false
             else
-                return |self receiveMessage:msg|
+                return |self receiveMessage:msg client:client|
             end
         elseif eventType == "timer" and event[2] == timer then
             local removals = {}
