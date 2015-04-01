@@ -15,7 +15,7 @@ return @class:require("RednetServer.lua")
         for i,method in ipairs{"isPresent", "getType", "getMethods", "call", "getNames"} do
             p[method] = function(...)
                 local callID = math.random()
-                |client sendMessage:{type="peripheral_call", method=method, parameters={...}, callID=callID}
+                |client sendMessage:{type="peripheral_call", method=method, parameters={...}, callID=callID}|
                 local sender, msg
                 repeat
                     sender, msg = rednet.receive(self.protocol)
@@ -66,6 +66,9 @@ return @class:require("RednetServer.lua")
 
     function (receiveMessage:msg client:client)
         if msg.type == "clear_peripheral" then
+            if not cache[client] then
+                cache[client] = {}
+            end
             cache[client][msg.peripheral_name] = nil
             cache[client].getNames = nil
         end
