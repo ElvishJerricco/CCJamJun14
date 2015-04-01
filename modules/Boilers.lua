@@ -1,9 +1,10 @@
 local gu = require("GraphicsUtils.lua")
+local periph = require("PeripheralUtils.lua")
 
 return @class:require("Module.lua")
     local function determineDisabled()
-        if #({peripheral.find("solid_fueled_boiler_firebox")})
-        +  #({peripheral.find("liquid_fueled_boiler_firebox")})
+        if #({periph.find("solid_fueled_boiler_firebox")})
+        +  #({periph.find("liquid_fueled_boiler_firebox")})
         == 0 then
             self.disabled = true
         else
@@ -21,8 +22,8 @@ return @class:require("Module.lua")
     end
 
     function (drawInWindow:win)
-        local solidBoilers = {peripheral.find("solid_fueled_boiler_firebox")}
-        local liquidBoilers = {peripheral.find("liquid_fueled_boiler_firebox")}
+        local solidBoilers = {periph.find("solid_fueled_boiler_firebox")}
+        local liquidBoilers = {periph.find("liquid_fueled_boiler_firebox")}
 
         -- do all calculations before any drawing
         local bars = {}

@@ -82,6 +82,7 @@ return @class:LuaObject
                 livingClients[msg.id] = true
                 return false
             else
+                local client = |self getClient:msg.id|
                 return |self receiveMessage:msg client:client|
             end
         elseif eventType == "timer" and event[2] == timer then

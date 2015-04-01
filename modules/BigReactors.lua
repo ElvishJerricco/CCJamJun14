@@ -1,7 +1,9 @@
+local periph = require("PeripheralUtils.lua")
+
 return @class:require("Module.lua")
     local function determineDisabled()
-        if #({peripheral.find("BigReactors-Reactor")})
-        +  #({peripheral.find("BigReactors-Turbine")})
+        if #({periph.find("BigReactors-Reactor")})
+        +  #({periph.find("BigReactors-Turbine")})
         == 0 then
             self.disabled = true
         else
@@ -22,8 +24,8 @@ return @class:require("Module.lua")
         local old = term.current()
         term.redirect(win)
 
-        local reactors = {peripheral.find("BigReactors-Reactor")}
-        local turbines = {peripheral.find("BigReactors-Turbine")}
+        local reactors = {periph.find("BigReactors-Reactor")}
+        local turbines = {periph.find("BigReactors-Turbine")}
 
         win.setBackgroundColor(colors.black)
         win.setCursorPos(1,1)

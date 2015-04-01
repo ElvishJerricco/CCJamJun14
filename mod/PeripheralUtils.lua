@@ -44,7 +44,7 @@ function periph.getNames()
     local names = peripheral.getNames()
     for k,v in pairs(peripheralHandlers) do
         for i,name in ipairs(v.getNames()) do
-            table.insert(names, name)
+            table.insert(names, k.."|"..name)
         end
     end
     return names
