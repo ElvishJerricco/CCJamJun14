@@ -37,6 +37,7 @@ return @class:LuaObject
                 return v
             end
         end
+        error("No such client: "..tostring(id))
     end
 
     function (receiveMessage:msg client:client)
