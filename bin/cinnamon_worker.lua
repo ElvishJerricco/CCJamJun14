@@ -31,7 +31,7 @@ parallel.waitForAny(function()
             if msg.type == "peripheral_call" then
                 local method, parameters, callID = msg.method, msg.parameters, msg.callID
                 local ret = {peripheral[method](unpack(parameters))}
-                rednet.send(serverId, {callID=callID, returnValues=ret}, "team_cc_corp.cinnamon.worker")
+                rednet.send(serverId, {callID=callID, returnValues=ret, id=id}, "team_cc_corp.cinnamon.worker")
             elseif msg.type == "keepAlive" then
                 rednet.send(serverId, {type="keepAliveResponse",id=id}, "team_cc_corp.cinnamon.worker")
             end
