@@ -58,7 +58,7 @@ return @class:LuaObject
 		subWindow.reposition(1, 1, w, h-2)
 
 		local module = modules[index]
-		if modules.disabled then
+		if module.disabled then
 			incrementIndex()
 		end
 		|module drawInWindow:subWindow|
