@@ -59,6 +59,18 @@ return @class:require("RednetServer.lua")
             return unpack(ret)
         end
 
+        local oldCall = p.call
+        function p.call(name, method, ...)
+            if method == "listSources" then
+                cache[client].call = cache[client].call or {}
+                if not cache[client].call.listSources then
+                    cache[client].call.listSources = {oldCall(name, method, ...)}
+                end
+                return unpack(cache[client].call.listSources)
+            end
+            return oldCall(name, method, ...)
+        end
+
         pu.addPeripheralHandler(p, client.uid)
 
         return client
